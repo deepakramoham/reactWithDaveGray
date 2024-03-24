@@ -1,37 +1,72 @@
 import { useState } from "react";
-
+import { FaTrashAlt } from "react-icons/fa";
 const Content = () => {
-  const [count, setCount] = useState(0);
-  const [name, setName] = useState("Dave"); /* array destructuring */
-  const handleNameChange = () => {
-    const names = ["Bob", "Kevin", "Dave"];
-    const int = Math.floor(Math.random() * 3);
-    setName(names[int]);
+  const [items, setItems] = useState([
+    {
+      id: 1,
+      checked: false,
+      item: "one half pound bag of Cocoa Covered Almonds Unsalted",
+    },
+    {
+      id: 2,
+      checked: true,
+      item: "Item 2",
+    },
+    {
+      id: 3,
+      checked: false,
+      item: "Item 3",
+    },
+  ]);
+  /* Way to display a list in JSX it to work through it using "maps" */
+  /* An item in the list needs to have a key attribute in react */
+  const handleCheck = (id) => {
+    const listItems = items.map((item) =>
+      item.id === id ? { ...item, checked: !item.checked } : item
+    );
+    setItems(listItems);
+    localStorage.setItem("shoppinglist", JSON.stringify(listItems));
   };
-  /*   name="abcd" ->this will give error "Uncaught TypeError: Assignment to constant variable."
-     Because the name is assigned as a constant/const so we cannot modify it directly, we always use setName to change the name*/
 
-  /* shift+alt+downArrow makes copy of the code selected */
-  const handleClick = () => {
-    setCount(count + 1);
-    setCount(count + 1);
-    setCount(count + 1);
-    /* The value of count will be what initially brought to the function. 
-    The value changes only at the time of re-renders*/
-
-    /* The current value of the fucntion comes into the state and we don't alter that  */
-    console.log(count);
+  const handleDelete = (id) => {
+    const listItems = items.filter((item) => item.id != id);
+    setItems(listItems);
+    localStorage.setItem("shoppinglist", JSON.stringify(listItems));
   };
-  const handleClick2 = (name) => {
-    console.log(count);
-  };
-
   return (
     <main>
-      <p onDoubleClick={handleClick}>Hello {name}!</p>
-      <button onClick={handleNameChange}>Change Name</button>
-      <button onClick={handleClick}>Check Count</button>
-      <button onClick={handleClick2}>Check Count Again</button>
+      {items.length ? (
+        <ul>
+          {items.map((item) => (
+            <li className="item" key={item.id}>
+              <input
+                type="checkbox"
+                checked={item.checked}
+                onChange={() => {
+                  handleCheck(item.id);
+                }}
+              />
+              <label
+                style={item.checked ? { textDecoration: "line-through" } : null}
+                onDoubleClick={() => {
+                  handleCheck(item.id);
+                }}
+              >
+                {item.item}
+              </label>
+              <FaTrashAlt
+                role="button"
+                tabIndex="0"
+                onClick={() => {
+                  handleDelete(item.id);
+                }}
+              />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p style={{ marginTop: "2rem" }}>Your list is empty</p>
+      )}
     </main>
   );
 };
