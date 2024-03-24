@@ -1,9 +1,9 @@
 
-const Header = (props) => {
+const Header = ({title}) => {
   
 /* props are used to pass data from parent to child component */
   return(<header>
-      <h1>{props.title}</h1>
+      <h1>{title}</h1>
   </header>)
 }
 
