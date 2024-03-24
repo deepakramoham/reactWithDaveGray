@@ -4,9 +4,11 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  const name = "Dave";
+  const handleNameChange = () => {
+    const names = ["Bob", "Kevin", "Dave"];
+    const int = Math.floor(Math.random() * 3);
+    return names[int];
+  };
 
   return (
     <>
@@ -19,36 +21,8 @@ function App() {
         </a>
       </div>
       <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <p>html</p>
-      <p>{"Dave"}</p>
-      <p>Dave</p>
-      <p>"dave"</p>
-      <p>{"1"}</p>
-      <p>"1"</p>
-      <p>1</p>
-      <p>{[1, 2, 3]}</p>
-      <p>[1,2,3]</p>
-     { <p>"[1,2,3]"</p>}
-      <p>{name}</p>
-      <p>name</p>
-      {/*<p> {{a:1,b:2}}</p> {Objects are not valid as a React child}*/}
-      {/*<p>{2===4}</p> */}
-      {/*we use curly braces to put javascript expressions in jsx. however we cannot render objects using curly braces. This would give error */}
-      {/* we cannot  use curly braces to boolean also*/}
-      <p>"shift+alt+a -- to comment"</p>
-      {/*shift+alt+a - > to comment*/}
-      <p></p>
+      <p>Hello {handleNameChange()}</p>
+      {/* <p>Hello {handleNameChange}</p> this won't work and will give "Warning: Functions are not valid as a React child. This may happen if you return a Component instead of <Component /> from render. Or maybe you meant to call this function rather than return it."*/}
     </>
   );
 }
