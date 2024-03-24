@@ -1,48 +1,37 @@
+import { useState } from "react";
+
 const Content = () => {
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState("Dave"); /* array destructuring */
   const handleNameChange = () => {
     const names = ["Bob", "Kevin", "Dave"];
     const int = Math.floor(Math.random() * 3);
-    return names[int];
+    setName(names[int]);
   };
+  /*   name="abcd" ->this will give error "Uncaught TypeError: Assignment to constant variable."
+     Because the name is assigned as a constant/const so we cannot modify it directly, we always use setName to change the name*/
+
   /* shift+alt+downArrow makes copy of the code selected */
   const handleClick = () => {
-    console.log("You clicked it");
+    setCount(count + 1);
+    setCount(count + 1);
+    setCount(count + 1);
+    /* The value of count will be what initially brought to the function. 
+    The value changes only at the time of re-renders*/
+
+    /* The current value of the fucntion comes into the state and we don't alter that  */
+    console.log(count);
   };
   const handleClick2 = (name) => {
-    console.log(`${name} was clicked`);
-  };
-  const handleClick3 = (e) => {
-    console.log(e);
-    console.log(e.target);
-    console.log(e.target.innerText);
+    console.log(count);
   };
 
   return (
     <main>
-      <p onDoubleClick={handleClick}>Hello {handleNameChange()}</p>
-      <button onClick={handleClick}>Click It</button>
-      {/*note here we are not putting operators after handleClick. 
-      Because if we put operators after the reference it will be called immediately like handleNameChange function */}
-      <button
-        onClick={() => {
-          handleClick2("Dave");
-        }}
-      >
-        Click It
-      </button>
-
-      {/*To pass a parameter to the function we need an anonymous function. 
-      Here handleClick2 is not called immediately even after putting operators 
-      after the reference because the reference is put inside an arrow function which is anonymous */}
-
-      <button
-        onClick={(e) => {
-          handleClick3(e);
-
-        }}
-      >
-        Click It
-      </button>
+      <p onDoubleClick={handleClick}>Hello {name}!</p>
+      <button onClick={handleNameChange}>Change Name</button>
+      <button onClick={handleClick}>Check Count</button>
+      <button onClick={handleClick2}>Check Count Again</button>
     </main>
   );
 };
