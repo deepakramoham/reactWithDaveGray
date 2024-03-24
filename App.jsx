@@ -6,6 +6,7 @@ import "./App.css";
 
 function App() {
   
+ /*  npm install --save style-components */
 
   return (
     <div className = "App">
